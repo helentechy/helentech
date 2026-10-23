@@ -1,0 +1,94 @@
+{
+  "redirects": [
+    {
+      "source": "/website-design.html",
+      "destination": "/google-services.html",
+      "permanent": true
+    },
+    {
+      "source": "/shopify.html",
+      "destination": "/google-merchant-center.html",
+      "permanent": true
+    },
+    {
+      "source": "/wordpress.html",
+      "destination": "/google-services.html",
+      "permanent": true
+    },
+    {
+      "source": "/wix.html",
+      "destination": "/google-services.html",
+      "permanent": true
+    },
+    {
+      "source": "/digital-marketing.html",
+      "destination": "/google-services.html",
+      "permanent": true
+    },
+    {
+      "source": "/email-marketing.html",
+      "destination": "/google-services.html",
+      "permanent": true
+    },
+    {
+      "source": "/social-media-marketing.html",
+      "destination": "/google-services.html",
+      "permanent": true
+    },
+    {
+      "source": "/social-media-management.html",
+      "destination": "/google-services.html",
+      "permanent": true
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin/",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/admin/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    }
+  ],
+  "functions": {
+    "api/admin/[action].js": {
+      "maxDuration": 30
+    }
+  }
+}

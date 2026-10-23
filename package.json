@@ -1,0 +1,9 @@
+{
+  "name": "helentech-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.mjs",
+    "demo": "node tools/e2e-server.mjs"
+  }
+}

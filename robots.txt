@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /docs/
+Disallow: /tools/
+
+Sitemap: https://helentech.com/sitemap.xml
