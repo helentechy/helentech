@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>HelenTech Analytics</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,4 91,27 91,73 50,96 9,73 9,27' fill='%23F78616'/%3E%3Cpolygon points='50,28 71,40 71,60 50,72 29,60 29,40' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+
+<!-- ============ Sign in ============ -->
+<main class="login" id="loginView" hidden>
+  <form class="login-card" id="loginForm" novalidate>
+    <div class="brand"><span class="logo" aria-hidden="true"></span><span>Helen<b>Tech</b></span></div>
+    <h1>Analytics dashboard</h1>
+    <p class="muted">Private area. Sign in with your administrator account.</p>
+    <div class="alert" id="loginError" role="alert" hidden></div>
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" autocomplete="username" required>
+    <label for="password">Password</label>
+    <div class="pw"><input id="password" name="password" type="password" autocomplete="current-password" required><button type="button" class="ghost" id="togglePw" aria-label="Show password" aria-pressed="false">Show</button></div>
+    <button class="btn primary" id="loginBtn" type="submit">Sign in</button>
+    <p class="fine">Access is limited to HelenTech administrators.</p>
+  </form>
+</main>
+
+<!-- ============ Dashboard ============ -->
+<div class="app" id="appView" hidden>
+  <aside class="side" id="side" aria-label="Main">
+    <div class="brand"><span class="logo" aria-hidden="true"></span><span>Helen<b>Tech</b></span><span class="tag">Analytics</span></div>
+    <nav class="nav" id="nav">
+      <a href="#overview" data-tab="overview"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h6V4H4zM14 20h6V11h-6zM4 20h6v-5H4zM14 9h6V4h-6z"/></svg>Overview</a>
+      <a href="#pages" data-tab="pages"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5"/></svg>Pages</a>
+      <a href="#services" data-tab="services"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/></svg>Services</a>
+      <a href="#traffic" data-tab="traffic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg>Traffic &amp; audience</a>
+      <a href="#leads" data-tab="leads"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4zM4 7l8 6 8-6"/></svg>Leads</a>
+      <a href="#live" data-tab="live"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2.5"/><path d="M7.5 7.5a6.4 6.4 0 000 9M16.5 7.5a6.4 6.4 0 010 9"/></svg>Live activity</a>
+    </nav>
+    <div class="side-foot">
+      <div class="who"><span class="avatar" id="avatar" aria-hidden="true">H</span><div><div id="whoEmail" class="who-email">...</div><div id="whoRole" class="muted small">...</div></div></div>
+      <button class="btn ghost block" id="logoutBtn" type="button">Sign out</button>
+      <a class="muted small" href="/" target="_blank" rel="noopener">View website</a>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="top">
+      <button class="icon-btn menu" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="side"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <h1 id="pageTitle">Overview</h1>
+      <div class="live-pill" id="livePill" title="Visitors active in the last 5 minutes"><span class="dot" aria-hidden="true"></span><span><b id="liveCount">0</b> online now</span></div>
+      <div class="range" role="group" aria-label="Date range">
+        <select id="preset" aria-label="Preset date range">
+          <option value="today">Today</option><option value="yesterday">Yesterday</option><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option><option value="month">This month</option><option value="custom">Custom range</option>
+        </select>
+        <input type="date" id="from" aria-label="From date"><span aria-hidden="true">to</span><input type="date" id="to" aria-label="To date">
+        <select id="bucket" aria-label="Group trend by"><option value="day">By day</option><option value="week">By week</option><option value="month">By month</option></select>
+        <button class="btn primary" id="applyBtn" type="button">Apply</button>
+      </div>
+    </header>
+
+    <div class="notice" id="basis"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg><span>Figures cover visitors who <b>accepted analytics</b>, so they are lower than your real traffic. Enquiries are counted for everyone. Time on page is an estimate based on active, visible time.</span></div>
+    <div class="alert" id="errorBar" role="alert" hidden><span id="errorText"></span> <button class="link" id="retryBtn" type="button">Try again</button></div>
+
+    <main id="content" class="content" tabindex="-1">
+      <!-- Overview -->
+      <section data-view="overview" aria-labelledby="pageTitle">
+        <div class="cards" id="kpis"></div>
+        <div class="grid g2-1">
+          <div class="panel"><div class="panel-h"><h2>Visitors over time</h2><div class="seg" id="metricSeg" role="group" aria-label="Chart metric"><button type="button" data-m="visitors" aria-pressed="true">Visitors</button><button type="button" data-m="sessions" aria-pressed="false">Sessions</button><button type="button" data-m="pageviews" aria-pressed="false">Page views</button><button type="button" data-m="enquiries" aria-pressed="false">Enquiries</button></div></div><div class="chart" id="trendChart"></div></div>
+          <div class="panel"><div class="panel-h"><h2>New vs returning</h2></div><div id="nvDonut"></div></div>
+        </div>
+        <div class="grid g3">
+          <div class="panel"><div class="panel-h"><h2>Top pages</h2><a class="link" href="#pages">All pages</a></div><div id="topPages"></div></div>
+          <div class="panel"><div class="panel-h"><h2>Traffic sources</h2><a class="link" href="#traffic">Details</a></div><div id="srcBars"></div></div>
+          <div class="panel"><div class="panel-h"><h2>Devices</h2></div><div id="devDonut"></div></div>
+        </div>
+        <div class="grid g2">
+          <div class="panel"><div class="panel-h"><h2>Visitor journey</h2></div><div id="funnel"></div></div>
+          <div class="panel"><div class="panel-h"><h2>Services people look at</h2><a class="link" href="#services">Details</a></div><div id="svcBars"></div></div>
+        </div>
+      </section>
+
+      <!-- Pages -->
+      <section data-view="pages" hidden aria-labelledby="pageTitle">
+        <div class="panel">
+          <div class="panel-h wrap"><h2>Page performance</h2>
+            <div class="tools"><div class="seg" id="pageFilter" role="group" aria-label="Page filter"><button type="button" data-f="all" aria-pressed="true">All</button><button type="button" data-f="top" aria-pressed="false">Most visited</button><button type="button" data-f="eng" aria-pressed="false">Highest engagement</button><button type="button" data-f="low" aria-pressed="false">High traffic, low engagement</button></div>
+            <input type="search" id="pageSearch" placeholder="Search pages" aria-label="Search pages"><button class="btn ghost" type="button" data-export="pages">Export CSV</button></div></div>
+          <div class="table-wrap"><table class="tbl" id="pagesTbl"></table></div>
+          <p class="fine" id="pagesNote"></p>
+        </div>
+      </section>
+
+      <!-- Services -->
+      <section data-view="services" hidden aria-labelledby="pageTitle">
+        <div class="panel"><div class="panel-h"><h2>Service interest</h2><button class="btn ghost" type="button" data-export="services">Export CSV</button></div><div class="table-wrap"><table class="tbl" id="svcTbl"></table></div>
+          <p class="fine">Contact clicks = clicks on contact, WhatsApp, email and call buttons while on that service's pages. "Google Ads &amp; Analytics (combined option)" is the single dropdown choice in the enquiry pop-up.</p></div>
+        <div class="grid g2">
+          <div class="panel"><div class="panel-h"><h2>Most clicked buttons</h2></div><div id="ctaList"></div></div>
+          <div class="panel"><div class="panel-h"><h2>Portfolio projects opened</h2></div><div id="portList"></div></div>
+        </div>
+      </section>
+
+      <!-- Traffic -->
+      <section data-view="traffic" hidden aria-labelledby="pageTitle">
+        <div class="grid g2">
+          <div class="panel"><div class="panel-h"><h2>Traffic sources</h2><button class="btn ghost" type="button" data-export="sources">Export CSV</button></div><div class="table-wrap"><table class="tbl" id="srcTbl"></table></div></div>
+          <div class="panel"><div class="panel-h"><h2>Devices &amp; browsers</h2></div><div id="devDonut2"></div><div id="browserBars"></div></div>
+        </div>
+        <div class="grid g2">
+          <div class="panel"><div class="panel-h"><h2>Referring websites</h2></div><div class="table-wrap"><table class="tbl" id="refTbl"></table></div></div>
+          <div class="panel"><div class="panel-h"><h2>Campaigns (UTM)</h2></div><div class="table-wrap"><table class="tbl" id="campTbl"></table></div></div>
+        </div>
+        <div class="grid g2">
+          <div class="panel"><div class="panel-h"><h2>Countries</h2><button class="btn ghost" type="button" data-export="geo">Export CSV</button></div><div class="table-wrap"><table class="tbl" id="ctyTbl"></table></div></div>
+          <div class="panel"><div class="panel-h"><h2>Cities</h2></div><div class="table-wrap"><table class="tbl" id="cityTbl"></table></div></div>
+        </div>
+        <p class="fine">Locations come from the hosting provider's approximate geolocation and are not always available. The IP address is not stored.</p>
+      </section>
+
+      <!-- Leads -->
+      <section data-view="leads" hidden aria-labelledby="pageTitle">
+        <div class="cards" id="leadKpis"></div>
+        <div class="panel"><div class="panel-h"><h2>Enquiries over time</h2></div><div class="chart" id="leadChart"></div></div>
+        <div class="grid g2">
+          <div class="panel"><div class="panel-h"><h2>Pages that produce enquiries</h2></div><div class="table-wrap"><table class="tbl" id="leadPagesTbl"></table></div><p class="fine">"Submitted from" is the page where the form was sent. Rate = enquiries per page view.</p></div>
+          <div class="panel"><div class="panel-h"><h2>Where enquiring visitors landed</h2></div><div id="leadLanding"></div></div>
+        </div>
+        <div class="grid g3">
+          <div class="panel"><div class="panel-h"><h2>By traffic source</h2></div><div id="leadSource"></div></div>
+          <div class="panel"><div class="panel-h"><h2>By service chosen</h2></div><div id="leadService"></div></div>
+          <div class="panel"><div class="panel-h"><h2>By enquiry type</h2></div><div id="leadType"></div></div>
+        </div>
+        <div class="grid g2">
+          <div class="panel"><div class="panel-h"><h2>What visitors do</h2><button class="btn ghost" type="button" data-export="events">Export CSV</button></div><div class="table-wrap"><table class="tbl" id="evTbl"></table></div><p class="fine">A click is not an enquiry. Enquiries are only counted after the form is successfully sent.</p></div>
+          <div class="panel"><div class="panel-h"><h2>Recent enquiries</h2><button class="btn ghost" type="button" data-export="leads">Export CSV</button></div><div class="table-wrap"><table class="tbl" id="recentTbl"></table></div><p class="fine">Names, emails and messages are never stored here. Read them in your email inbox.</p></div>
+        </div>
+      </section>
+
+      <!-- Live -->
+      <section data-view="live" hidden aria-labelledby="pageTitle">
+        <div class="cards" id="liveKpis"></div>
+        <div class="grid g1-2">
+          <div class="panel"><div class="panel-h"><h2>Pages being viewed now</h2></div><div id="livePages"></div><div class="panel-h sub"><h2>Where they are</h2></div><div id="liveCountries"></div></div>
+          <div class="panel"><div class="panel-h"><h2>Recent activity (last hour)</h2><span class="muted small" id="liveStamp"></span></div><ul class="feed" id="feed" aria-live="polite"></ul></div>
+        </div>
+        <p class="fine">"Online now" counts sessions that sent a signal in the last 5 minutes. It updates every 15 seconds.</p>
+      </section>
+    </main>
+  </div>
+</div>
+<div class="tip" id="tip" role="tooltip" hidden></div>
+<script src="admin.js" defer></script>
+</body>
+</html>
