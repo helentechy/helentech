@@ -65,7 +65,7 @@
     if (/\.(pdf|docx?|xlsx?|zip|csv)(\?|#|$)/i.test(href) || a.hasAttribute('download')) return event('download', { label: label(a), file: href.split('/').pop().slice(0, 80) });
     if (a.closest('.proj, .proj-rail')) { var card = a.closest('.proj'); var t = card && card.querySelector('h3,h4'); return event('portfolio_click', { label: (t ? t.textContent : label(a)).replace(/\s+/g, ' ').trim().slice(0, 80) }); }
     if (a.classList.contains('filter') && a.closest('[data-sub-bar],[data-group-bar]')) return event('portfolio_filter', { label: label(a) });
-    if (a.matches('.btn, .nav-cta, .svc4-more, [data-open-enquiry]')) return event('cta_click', { label: label(a), to: href.split('?')[0].slice(0, 80) });
+    if (a.matches('.btn, .nav-cta, .svc4-more, .svc5-more, [data-open-enquiry]')) return event('cta_click', { label: label(a), to: href.split('?')[0].slice(0, 80) });
     if (/^https?:\/\//i.test(href)) { try { if (new URL(href).host !== location.host) return event('outbound_click', { label: href.replace(/^https?:\/\//, '').split(/[/?#]/)[0].slice(0, 60) }); } catch (er) {} }
   }
 
