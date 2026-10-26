@@ -1578,3 +1578,27 @@ html.enq-open{overflow:hidden;}
 @media(min-width:640px){ .svc5-grid{grid-template-columns:repeat(2,1fr);} }
 @media(min-width:1100px){ .svc5-grid{grid-template-columns:repeat(4,1fr);} }
 @media(max-width:639px){ .svc5-head{align-items:flex-start;} .svc5{padding:var(--s-5);} .svc5-ico{width:56px; height:56px; margin-bottom:var(--s-4);} }
+
+/* Services: logo icons + motion (all motion is switched off by the reduced-motion rule above) */
+.svc5-ico{box-shadow:0 6px 16px -8px rgba(20,23,28,.25);}
+.svc5-ico img{width:36px; height:36px; object-fit:contain;}
+.svc5-head.reveal.in .eyebrow{animation:svc5-slide .6s var(--ease) backwards;}
+.svc5-head.reveal.in h2{animation:svc5-rise .7s var(--ease) .08s backwards;}
+.svc5-head.reveal.in .svc5-all{animation:svc5-pop .7s var(--ease) .3s backwards, svc5-ring 3.2s ease-out 1.6s infinite;}
+.svc5-head h2 em{background:linear-gradient(100deg,var(--orange) 0%,var(--orange) 40%,#FFB15C 50%,var(--orange) 60%,var(--orange) 100%); background-size:250% 100%; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:var(--orange); animation:svc5-shine 5s ease-in-out 1s infinite;}
+.svc5.reveal.in{animation:svc5-card .75s var(--ease) backwards;}
+.svc5.reveal.in:nth-child(2){animation-delay:.12s;} .svc5.reveal.in:nth-child(3){animation-delay:.24s;} .svc5.reveal.in:nth-child(4){animation-delay:.36s;}
+.svc5.reveal.in .svc5-ico{animation:svc5-logo .7s cubic-bezier(.34,1.56,.64,1) backwards;}
+.svc5.reveal.in:nth-child(1) .svc5-ico{animation-delay:.25s;} .svc5.reveal.in:nth-child(2) .svc5-ico{animation-delay:.37s;} .svc5.reveal.in:nth-child(3) .svc5-ico{animation-delay:.49s;} .svc5.reveal.in:nth-child(4) .svc5-ico{animation-delay:.61s;}
+.svc5.reveal.in .svc5-ico img{animation:svc5-float 4.5s ease-in-out 1.4s infinite;}
+.svc5.reveal.in:nth-child(2) .svc5-ico img{animation-delay:1.9s;} .svc5.reveal.in:nth-child(3) .svc5-ico img{animation-delay:2.4s;} .svc5.reveal.in:nth-child(4) .svc5-ico img{animation-delay:2.9s;}
+.svc5:hover .svc5-ico{transform:scale(1.08) rotate(-4deg); transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+.svc5-ico{transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+@keyframes svc5-card{from{opacity:0; transform:translateY(34px) scale(.96);}}
+@keyframes svc5-logo{from{opacity:0; transform:scale(.3) rotate(-25deg);}}
+@keyframes svc5-float{0%,100%{transform:translateY(0);} 50%{transform:translateY(-3px);}}
+@keyframes svc5-rise{from{opacity:0; transform:translateY(22px);}}
+@keyframes svc5-slide{from{opacity:0; transform:translateX(-16px);}}
+@keyframes svc5-pop{from{opacity:0; transform:scale(.85);}}
+@keyframes svc5-ring{0%{box-shadow:0 0 0 0 rgba(247,134,22,.45), 0 10px 24px -14px rgba(247,134,22,.9);} 70%,100%{box-shadow:0 0 0 16px rgba(247,134,22,0), 0 10px 24px -14px rgba(247,134,22,.9);}}
+@keyframes svc5-shine{0%,60%{background-position:100% 0;} 100%{background-position:-100% 0;}}
