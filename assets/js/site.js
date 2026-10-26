@@ -176,6 +176,44 @@
   })();
 
   /* ------------------------------------------------------------------
+     Services carousel dots (the cards scroll-snap sideways on phones; CSS hides the dots elsewhere)
+     ------------------------------------------------------------------ */
+  (function svcCarousel() {
+    var track = $('.svc5-grid');
+    if (!track) return;
+    var cards = $$('.svc5', track);
+    if (cards.length < 2) return;
+    var dots = document.createElement('div');
+    dots.className = 'svc5-dots';
+    dots.setAttribute('role', 'group');
+    dots.setAttribute('aria-label', 'Choose a service');
+    cards.forEach(function (c, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', 'Show service ' + (i + 1) + ' of ' + cards.length);
+      b.addEventListener('click', function () {
+        track.scrollTo({ left: c.offsetLeft - track.offsetLeft - (parseFloat(getComputedStyle(track).paddingLeft) || 0), behavior: reduceMotion ? 'auto' : 'smooth' });
+      });
+      dots.appendChild(b);
+    });
+    track.parentNode.insertBefore(dots, track.nextSibling);
+    var raf = 0;
+    function sync() {
+      raf = 0;
+      var center = track.scrollLeft + track.clientWidth / 2, best = 0, bestD = 1e9;
+      cards.forEach(function (c, i) {
+        var d = Math.abs(c.offsetLeft - track.offsetLeft + c.offsetWidth / 2 - center);
+        if (d < bestD) { bestD = d; best = i; }
+      });
+      if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 4) best = cards.length - 1;
+      $$('button', dots).forEach(function (b, i) { b.setAttribute('aria-current', i === best ? 'true' : 'false'); });
+    }
+    track.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(sync); }, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  })();
+
+  /* ------------------------------------------------------------------
      Hero video: respect reduced motion, provide a pause/play control
      ------------------------------------------------------------------ */
   (function heroVideo() {

@@ -1602,3 +1602,19 @@ html.enq-open{overflow:hidden;}
 @keyframes svc5-pop{from{opacity:0; transform:scale(.85);}}
 @keyframes svc5-ring{0%{box-shadow:0 0 0 0 rgba(247,134,22,.45), 0 10px 24px -14px rgba(247,134,22,.9);} 70%,100%{box-shadow:0 0 0 16px rgba(247,134,22,0), 0 10px 24px -14px rgba(247,134,22,.9);}}
 @keyframes svc5-shine{0%,60%{background-position:100% 0;} 100%{background-position:-100% 0;}}
+
+/* Services: swipeable carousel on phones */
+.svc5-dots{display:none;}
+.svc5-ico img[src$=".webp"]{width:40px; height:40px;}
+@media(max-width:639px){
+  .svc5-grid{display:flex; gap:var(--s-4); overflow-x:auto; overscroll-behavior-x:contain; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+    margin-inline:calc(var(--s-5) * -1); padding:var(--s-3) var(--s-5) var(--s-5); scroll-padding-inline:var(--s-5);}
+  .svc5-grid::-webkit-scrollbar{display:none;}
+  .svc5{flex:0 0 82%; scroll-snap-align:start; scroll-snap-stop:always;}
+  .svc5:hover{transform:none;}
+  .svc5-dots{display:flex; justify-content:center; gap:8px; margin-top:var(--s-1);}
+  .svc5-dots button{width:8px; height:8px; padding:0; border:0; border-radius:999px; background:var(--line); transition:width .3s var(--ease), background .3s var(--ease); position:relative;}
+  .svc5-dots button::before{content:""; position:absolute; inset:-10px -6px;}
+  .svc5-dots button[aria-current="true"]{width:26px; background:var(--orange);}
+  .svc5-dots button:focus-visible{outline:3px solid var(--blue); outline-offset:3px;}
+}
