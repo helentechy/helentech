@@ -214,6 +214,33 @@
   })();
 
   /* ------------------------------------------------------------------
+     Count-up numbers: <span class="ab-num" data-count="500" data-suffix="+">500+</span>
+     The final value is already in the HTML, so no-JS and reduced-motion visitors see it straight away.
+     ------------------------------------------------------------------ */
+  (function countUp() {
+    var nums = $$('.ab-num[data-count]');
+    if (!nums.length || reduceMotion || !('IntersectionObserver' in window)) return;
+    function run(el) {
+      var end = parseFloat(el.getAttribute('data-count')) || 0, suffix = el.getAttribute('data-suffix') || '';
+      var dur = 1800 + Math.min(end, 500) * 1.2, start = null;
+      el.textContent = '0' + suffix;
+      function frame(t) {
+        if (start === null) start = t;
+        var p = Math.min((t - start) / dur, 1), eased = 1 - Math.pow(1 - p, 4);
+        el.textContent = Math.round(end * eased) + suffix;
+        if (p < 1) requestAnimationFrame(frame); else el.classList.add('is-done');
+      }
+      requestAnimationFrame(frame);
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { io.unobserve(en.target); setTimeout(function () { run(en.target); }, 450); }
+      });
+    }, { threshold: 0.6 });
+    nums.forEach(function (n) { n.textContent = '0' + (n.getAttribute('data-suffix') || ''); io.observe(n); });
+  })();
+
+  /* ------------------------------------------------------------------
      Hero video: respect reduced motion, provide a pause/play control
      ------------------------------------------------------------------ */
   (function heroVideo() {
