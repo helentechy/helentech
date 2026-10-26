@@ -1533,3 +1533,22 @@ html.enq-open{overflow:hidden;}
 .foot-linkbtn:focus-visible,.foot-legal a:focus-visible{outline:2px solid var(--orange); outline-offset:3px;}
 .enq-alert-alt{margin-top:6px; font-size:.9rem; line-height:1.5;}
 .enq-alert-alt a{overflow-wrap:anywhere;}
+
+/* Hero: compact, mobile-first spacing so headline + buttons sit above the fold */
+@media(max-width:959px){
+  .hero--v3{padding-top:calc(var(--nav-h) + .75rem);}
+  .hero3{gap:var(--s-5); padding-bottom:2rem;}
+  .hero3-copy{text-align:center;}
+  .hero--v3 h1{font-size:clamp(2.1rem,9.5vw,3rem); margin:var(--s-4) auto var(--s-3);}
+  .hero--v3 .lead{font-size:1.0625rem; margin:0 auto var(--s-5);}
+  .hero3-copy .btn-row{justify-content:center;}
+  .hero3-copy .hero-note{justify-content:center; margin-top:var(--s-4);}
+  .hero3-visual{padding-top:0;}
+  .hero3-visual .hero-video{width:62%; max-width:240px;}
+  .hero3-visual .badge{width:72px; height:72px;}
+  .hero3-visual .hero-chips{margin-top:var(--s-4);}
+}
+@media(max-width:480px){
+  .hero--v3 .btn-row{flex-direction:column; align-items:stretch; gap:var(--s-3);}
+  .hero--v3 .btn-row .btn{width:100%; justify-content:center;}
+}
